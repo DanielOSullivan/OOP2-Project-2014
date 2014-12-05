@@ -2,6 +2,7 @@
 /*OOP instantiable class which models a Fighter, storing all that Fighter's details as one object*/
 
 import java.io.*;
+
 public class Fighter implements Serializable{
 	private String name;
 	private int age;
