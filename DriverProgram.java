@@ -105,7 +105,6 @@ public class DriverProgram extends JFrame implements ActionListener{
 	/********* Creating Menus (User-Defined Methods) *********/
 
 
-
 	/********* Creating Fighter Menu *********/
 																																	
 	public void createFighterMenu(){
@@ -175,6 +174,9 @@ public class DriverProgram extends JFrame implements ActionListener{
 	
 	
 	
+	/********* Input Validation **********/
+	
+	
 	/********* Validating name input for f1 *********/
 	
 	public void nameValidation(Fighter f){
@@ -193,7 +195,7 @@ public class DriverProgram extends JFrame implements ActionListener{
 		/*Changes Made: Instead of using 2 variables for 1st name and last name, I just used the one variable for the full name
 		 *				Also, I didn't use the validation in it's own method like the author did*/	
 			 	
-	    if (fName.matches("[a-zA-z]+([ '-][a-zA-Z]+)*" ))
+	    if (fName.matches("[a-zA-z]+([ '-][a-zA-Z]+)*"))
 	   		f.setName(fName);
 	   		
 	   	else{
@@ -247,24 +249,42 @@ public class DriverProgram extends JFrame implements ActionListener{
         String fGenderInput = JOptionPane.showInputDialog("Enter the gender of the Fighter (M/F)"); //Creating String variable for gender for the validation
         	
        	while(fGenderInput.equals("")) ///If the gender entered was an empty String,do the following...
-			fGenderInput = JOptionPane.showInputDialog("Invalid Input!\n\nEnter the gender of the Fighter (M/F)");
+			fGenderInput = JOptionPane.showInputDialog("Invalid Input - Single character input only!\n\nEnter the gender of the Fighter (M/F)");
 			
        	char fGender = fGenderInput.charAt(0); //Creating char ariable for the frst characte of the string entered by the user
-			
-       	if (fGender == 'f' || fGender == 'F' || fGender == 'm' || fGender == 'M') //Conditions in order to progress in the program
+		
+		/************************************************************************************************************
+		 *Note: This is the same code as referenced above, just modified	
+		 *Code Reference for age input validation (The next few lines of code)
+		 *Availability: http://www.java2s.com/Tutorial/Java/0120__Development/Validatethefirstnameandlastname.htm
+		 *Author: 12 Demo Source 
+		 *Site: java2s.com
+		 *Source Code Date: 2009 
+		 *Changes Made: Instead of using 2 variables for 1st name and last name, I just used the one variable for the gender
+		 *				Also, I didn't use the validation in it's own method like the author did and i changed what was in the brackets to accomodate for G/F to be the first letter of the input*/	
+		 	
+       	if (fGenderInput.matches("([Mm])*") || fGenderInput.matches("([Ff])*")) //Conditions in order to progress in the program
        		f.setGender(fGender); //Only do this when the condition are satisfied
        	
        	else{ //Invalid input validation...	
-	       	for (int c=0; c <= c+1; c++){
-	       		if (fGender == 'f' || fGender == 'F' || fGender == 'm' || fGender == 'M'){ //Conditions in order to progress in the program
+	       	while(!fGenderInput.matches("([Mm])*") && !fGenderInput.matches("([Ff])*")){
+	       		
+	       		fGenderInput = JOptionPane.showInputDialog("Invalid Input - Single character input only!\n\nEnter the gender of the Fighter (M/F)");
+	       		
+	       		if(fGenderInput.equals("")) ///If the gender entered was an empty String,do the following...
+					fGenderInput = JOptionPane.showInputDialog("Invalid Input - Single character input only!\n\nEnter the gender of the Fighter (M/F)");
+	       		
+	       		else if (fGenderInput.matches("([Mm])*") || fGenderInput.matches("([Ff])*")){ //Conditions in order to progress in the program
        				f.setGender(fGender); //Only do this when the condition are satisfied
        				break;
 	       		}
 	       	
 		       	else
-		       		fGenderInput = JOptionPane.showInputDialog("Invalid Input!\n\nEnter the gender of the Fighter (M/F)");	
+		       		fGenderInput = JOptionPane.showInputDialog("Invalid Input - Single character input only!\n\nEnter the gender of the Fighter (M/F)");	
 	       	}
        	}
+       	
+       	/************************************************************************************************************/
        	
 	} //End validating gender
 	
@@ -292,7 +312,7 @@ public class DriverProgram extends JFrame implements ActionListener{
 	   		a.setName(aName);
 	   		
 	   	else{
-	   		while(!aName.matches("[a-zA-z]+([0-9])+([ '-][a-zA-Z]+)*" ))
+	   		while(!aName.matches("[a-zA-z]+([ '-][a-zA-Z]+)*" ))
 	   			aName = JOptionPane.showInputDialog("Inavlid Input!\n\n Enter the name of the Arena");
 	   	}
 	   	/************************************************************************************************************/
@@ -311,7 +331,7 @@ public class DriverProgram extends JFrame implements ActionListener{
 			aLocation = JOptionPane.showInputDialog("Inavlid Input!\n\n Enter the location of the Arena");
 			
 		/************************************************************************************************************/	
-		//Code Reference for name input validation (The next 7 lines of code)
+		//Code Reference for name input validation
 		//Availability: http://www.java2s.com/Tutorial/Java/0120__Development/Validatethefirstnameandlastname.htm
 		//Author: 12 Demo Source 
 		//Site: java2s.com
@@ -565,8 +585,8 @@ public class DriverProgram extends JFrame implements ActionListener{
 	  		//updating the health stats and applying them in the label
 		  	response.setText("<html><h1 color = 'orange'>Health Stats:<br>\"" + 
 		  					 f1.getName() + "\" @ " + f1Health + "%<br>\"" + f2.getName() + "\" @ " + f2Health + "%" + 
-		  					 "</h1><br><h1 color='green'>Rules:<br>- Each player: 100% health<br>- Punch: 10% damage dealt (70% hit connection)<br>" + 
-		  					 "- Kick: 30% damage dealt (30% hit connection)<br>- If any attack misses, the opponent regenerates 5% health!</h1><br>" + 
+		  					 "</h1><br><h1 color='green'>Rules:<br>- Each player: 100% health<br>- Punch: 10% damage dealt (80% hit connection)<br>" + 
+		  					 "- Kick: 30% damage dealt (50% hit connection)<br>- If any attack misses, the opponent regenerates 5% health!</h1><br>" + 
 		  					 "<h1 color='red'>You will go first: \"" + f1.getName() + "\"</h1></html>");
 		  					 
 		}//End if(itemClicked.equals("Begin Fight!")){...}
@@ -579,8 +599,8 @@ public class DriverProgram extends JFrame implements ActionListener{
 			
 			hitOrMiss = (int)(Math.random()*9);	//Random integer between 0-9 (10 possibilities)
 					      			
-		    //Setting the Punch to have a 70% hit ratio. This if statement handles when it hits only (6/10 attempted punches theoretically will hit)
-		   	if(hitOrMiss >= 0 && hitOrMiss <= 6){  
+		    //Setting the Punch to have a 80% hit ratio. This if statement handles when it hits only (6/10 attempted punches theoretically will hit)
+		   	if(hitOrMiss >= 0 && hitOrMiss <= 7){  
 		   		
 			    f2Health = f2Health - 10; //If it hits, f2's health gets 10 damage
 			    
@@ -591,7 +611,7 @@ public class DriverProgram extends JFrame implements ActionListener{
 		      	}
 					      	
 		    //Handles when the punch misses
-			else if (hitOrMiss > 6){
+			else if (hitOrMiss > 7){
 		    	//message displaying to the user if their choice missed
 		    	if (f2Health == 100)
 		    		JOptionPane.showMessageDialog(null,"MISS! \nNo damage dealt!\n\n" + f2.getName() + ": 0% Health gained! [Full Health]","MISS",JOptionPane.INFORMATION_MESSAGE);
@@ -613,8 +633,8 @@ public class DriverProgram extends JFrame implements ActionListener{
 		  	//updating the health stats and applying them in the label
 		  	response.setText("<html><h1 color = 'orange'>Health Stats:<br>\"" + 
 		  					 f1.getName() + "\" @ " + f1Health + "%<br>\"" + f2.getName() + "\" @ " + f2Health + "%" + 
-		  					 "</h1><br><h1 color='green'>Rules:<br>- Each player: 100% health<br>- Punch: 10% damage dealt (70% hit connection)<br>" + 
-		  					 "- Kick: 30% damage dealt (30% hit connection)<br>- If any attack misses, the opponent regenerates 5% health!</h1><br>" + 
+		  					 "</h1><br><h1 color='green'>Rules:<br>- Each player: 100% health<br>- Punch: 10% damage dealt (80% hit connection)<br>" + 
+		  					 "- Kick: 30% damage dealt (50% hit connection)<br>- If any attack misses, the opponent regenerates 5% health!</h1><br>" + 
 		  					 "<h1 color='red'>Your Turn: \"" + f2.getName() + "\"</h1></html>");
 		  					 
 	 	}//end of if (event.getSource().equals(f1PunchButton)){...}
@@ -627,8 +647,8 @@ public class DriverProgram extends JFrame implements ActionListener{
 			
 			hitOrMiss = (int)(Math.random()*9);	//Random integer between 0-9 (10 possibilities)
 					      			
-		    //Setting the Kick to have a 30% hit ratio. This if statement handles when it hits only (3/10 attempted punches theoretically will hit)
-		   	if(hitOrMiss >= 0 && hitOrMiss <= 2){  
+		    //Setting the Kick to have a 50% hit ratio. This if statement handles when it hits only (3/10 attempted punches theoretically will hit)
+		   	if(hitOrMiss >= 0 && hitOrMiss <= 4){  
 		   		
 			    f2Health = f2Health - 30; //If it hits, f2's health gets 30 damage
 			    
@@ -640,7 +660,7 @@ public class DriverProgram extends JFrame implements ActionListener{
 		      	}
 					      	
 		    //Handles when the kick misses
-			else if (hitOrMiss > 2){
+			else if (hitOrMiss > 4){
 		    	//message displaying to the user if their choice missed 
 		    	if (f2Health == 100)
 		    		JOptionPane.showMessageDialog(null,"MISS! \nNo damage dealt!\n\n" + f2.getName() + ": 0% Health gained! [Full Health]","MISS",JOptionPane.INFORMATION_MESSAGE);
@@ -662,8 +682,8 @@ public class DriverProgram extends JFrame implements ActionListener{
 		  	//updating the health stats and applying them in the label
 		  	response.setText("<html><h1 color = 'orange'>Health Stats:<br>\"" + 
 		  					 f1.getName() + "\" @ " + f1Health + "%<br>\"" + f2.getName() + "\" @ " + f2Health + "%" + 
-		  					 "</h1><br><h1 color='green'>Rules:<br>- Each player: 100% health<br>- Punch: 10% damage dealt (70% hit connection)<br>" + 
-		  					 "- Kick: 30% damage dealt (30% hit connection)<br>- If any attack misses, the opponent regenerates 5% health!</h1><br>" + 
+		  					 "</h1><br><h1 color='green'>Rules:<br>- Each player: 100% health<br>- Punch: 10% damage dealt (80% hit connection)<br>" + 
+		  					 "- Kick: 30% damage dealt (50% hit connection)<br>- If any attack misses, the opponent regenerates 5% health!</h1><br>" + 
 		  					 "<h1 color='red'>Your Turn: \"" + f2.getName() + "\"</h1></html>");
 	 	}//end of if (event.getSource().equals(f1PunchButton)){...}
 		       	
@@ -678,7 +698,7 @@ public class DriverProgram extends JFrame implements ActionListener{
 			hitOrMiss = (int)(Math.random()*9); //Random integer between 0-9 (10 possibilities)
 				      				
 			//Setting the Punch to have a 70% hit ratio. This if statement handles when it hits only (6/10 attempted punches theoretically will hit)
-		   	if(hitOrMiss >= 0 && hitOrMiss <= 6){
+		   	if(hitOrMiss >= 0 && hitOrMiss <= 7){
 		   		
 			    f1Health = f1Health - 10; //If it hits, f1's health gets 10 damage
 			    
@@ -689,7 +709,7 @@ public class DriverProgram extends JFrame implements ActionListener{
 		    }
 		    
 		    //Handles when the punch misses
-		    else if(hitOrMiss > 6){ 
+		    else if(hitOrMiss > 7){ 
 		    	
 		    	if (f2Health == 100) //Not adding 5% health if it's already full 
 		    		JOptionPane.showMessageDialog(null,"MISS! \nNo damage dealt!\n\n" + f1.getName() + ": 0% Health gained! [Full Health]","MISS",JOptionPane.INFORMATION_MESSAGE);
@@ -711,8 +731,8 @@ public class DriverProgram extends JFrame implements ActionListener{
 		  	//Setting appropriate label in the Frame
 		  	response.setText("<html><h1 color = 'orange'>Health Stats:<br>\"" + 
 		  					 f1.getName() + "\" @ " + f1Health + "%<br>\"" + f2.getName() + "\" @ " + f2Health + "%" + 
-		  					 "</h1><br><h1 color='green'>Rules:<br>- Each player: 100% health<br>- Punch: 10% damage dealt (70% hit connection)<br>" + 
-		  					 "- Kick: 30% damage dealt (30% hit connection)<br>- If any attack misses, the opponent regenerates 5% health!</h1><br>" + 
+		  					 "</h1><br><h1 color='green'>Rules:<br>- Each player: 100% health<br>- Punch: 10% damage dealt (80% hit connection)<br>" + 
+		  					 "- Kick: 30% damage dealt (50% hit connection)<br>- If any attack misses, the opponent regenerates 5% health!</h1><br>" + 
 		  					 "<h1 color='red'>Your Turn: \"" + f1.getName() + "\"</h1></html>");
 		  					 
 	    }//End of if (event.getSource().equals(f2PunchButton)){...)
@@ -726,7 +746,7 @@ public class DriverProgram extends JFrame implements ActionListener{
 			hitOrMiss = (int)(Math.random()*9);	//Random integer between 0-9 (10 possibilities)
 					      			
 		    //Setting the Kick to have a 30% hit ratio. This if statement handles when it hits only (3/10 attempted punches theoretically will hit)
-		   	if(hitOrMiss >= 0 && hitOrMiss <= 2){  
+		   	if(hitOrMiss >= 0 && hitOrMiss <= 4){  
 		   		//If it hits, f1's health gets 10 damage
 			    f1Health = f1Health - 30; //If it hits, f1's health gets 30 damage
 			    
@@ -739,7 +759,7 @@ public class DriverProgram extends JFrame implements ActionListener{
 		      	}
 					      	
 		    //Handles when the kick misses
-			else if (hitOrMiss > 2){
+			else if (hitOrMiss > 4){
 		    	//message displaying to the user if their choice missed 
 		    	if (f1Health == 100)
 		    		JOptionPane.showMessageDialog(null,"MISS! \nNo damage dealt!\n\n" + f1.getName() + ": 0% Health gained! [Full Health]","MISS",JOptionPane.INFORMATION_MESSAGE);
@@ -757,7 +777,8 @@ public class DriverProgram extends JFrame implements ActionListener{
 		  	//since it's f2's turn, we set their buttons to visible
 	       	f2PunchButton.setVisible(false);
 		  	f2KickButton.setVisible(false);	
-		  		
+		  	
+		  	//Changing tthe label to suit the current conditions of the fight	
 		  	response.setText("<html><h1 color = 'orange'>Health Stats:<br>\"" + 
 		  					 f1.getName() + "\" @ " + f1Health + "%<br>\"" + f2.getName() + "\" @ " + f2Health + "%" + 
 		  					 "</h1><br><h1 color='green'>Rules:<br>- Each player: 100% health<br>- Punch: 10% damage dealt (70% hit connection)<br>" + 
@@ -798,15 +819,14 @@ public class DriverProgram extends JFrame implements ActionListener{
 			   	f1PunchButton.setVisible(false);
 			  	f1KickButton.setVisible(false);
 			  	
-			  	if(event.getSource() == beginFightButton){ //If the user click the button, re-start the fight
+			  	if(event.getSource() == beginFightButton) //If the user click the button, re-start the fight
 			  		beginFight();
-			  	}
 			  	
 		} //End if (f1Health <= 0){...}
 			
 				
 			
-		//Handles if f1 Lost	
+		//Handles if f2 Lost	
 					
 		else if (f2Health <= 0){
 			
@@ -823,7 +843,7 @@ public class DriverProgram extends JFrame implements ActionListener{
 		  		response.setText("<html><h1 color = 'orange'>Health Stats:<br>\"" + 
 		 					 	 f1.getName() + "\" @ " + f1Health + "%<br>\"" + f2.getName() + "\" @ " + f2Health + "%" + "</h1><br> " + 
 		 					  	 "<h1 color='green'>Congratulations: \"" + f1.getName() + "\", <br>You are the Winner!<br> " + 
-		 					  	 "\"" + f2.getName() + "\" is now @ " + f2Health + "% health! Unlucky!</h1><br><br><h1 color='red'>GAME OVER</h1></html>");
+		 					  	 "\"" + f2.getName() + "\" is now @ " + f2Health + "% health! Unlucky!</h1><br><br><h1 color='red'>***** GAME OVER *****</h1></html>");
 		 		
 		 		//Message dialog displaying the winner	
 				JOptionPane.showMessageDialog(null,"\"" + f1.getName() + "\" is the winner!","Congratulations: " + f1.getName(),JOptionPane.INFORMATION_MESSAGE);
@@ -834,9 +854,9 @@ public class DriverProgram extends JFrame implements ActionListener{
 			   	f1PunchButton.setVisible(false);
 			  	f1KickButton.setVisible(false);
 			  	
-			  	if(event.getSource() == beginFightButton){ //If the user click the button, re-start the fight
+			  	if(event.getSource() == beginFightButton) //If the user click the button, re-start the fight
 			  		beginFight();
-			  	}
+			  	
 		} //End if (f2Health <= 0){...}	
 		
 	}//End of actionPerformed	

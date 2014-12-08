@@ -2,7 +2,6 @@
 /*OOP instantiable class which models a Fighter, storing all that Fighter's details as one object*/
 
 import java.io.*;
-
 public class Fighter implements Serializable{
 	private String name;
 	private int age;
@@ -26,7 +25,7 @@ public class Fighter implements Serializable{
 //Constructor Methods - To give people an initial state
 //No Argument Constructor - To create a default fighter
 	public Fighter(){
-		this("No-Name",0,'U');
+		this("No-Name",0,'N');
 		}
 //Multi Argument Constructor - To create a fighter about whom everything is known	
 	public Fighter(String name, int age, char gender){
