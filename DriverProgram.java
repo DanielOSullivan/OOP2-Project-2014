@@ -11,6 +11,7 @@ import java.util.*;
 
 
 
+
 /********* DriverProgram class *********/
 																							 	   																	 	   																					
 public class DriverProgram extends JFrame implements ActionListener{
@@ -28,17 +29,17 @@ public class DriverProgram extends JFrame implements ActionListener{
 	JTextArea textArea = new JTextArea();//Setting up a JTextArea variable which will be used in the welcome bmessage after the user clicks the beginFightButton
 	
 	//Fighter objects being created for use within the program
-	static Fighter f1 = new Fighter(); 
-    static Fighter f2 = new Fighter();
+	private static Fighter f1 = new Fighter(); 
+    private static Fighter f2 = new Fighter();
     
-    static Arena a1 = new Arena();//Arena object being created for use within the program
+    private static Arena a1 = new Arena();//Arena object being created for use within the program
     
 	private int f1Health = 100, f2Health = 100; //Initial health values of each fighter
 	private int hitOrMiss; //This variable will be used in relation to the hit ratios (30%, 60% etc...) of punches and kicks
 	
 	//Creating ArrayLists to save/store and load up data entered by the user for Fighters and Arenas
-	static ArrayList <Fighter> myFighters = new ArrayList <Fighter> ();	
-	static ArrayList <Arena> myArenas = new ArrayList <Arena> ();	
+	private static ArrayList <Fighter> myFighters = new ArrayList <Fighter> ();	
+	private static ArrayList <Arena> myArenas = new ArrayList <Arena> ();	
 	
 	
 	/********* Driver *********/
@@ -301,7 +302,7 @@ public class DriverProgram extends JFrame implements ActionListener{
 	
 	/********* Validating Name input for a1 *********/
 	
-	private void nameValidation(Arena a){
+ 	private void nameValidation(Arena a){
         			       	
        	String aName = JOptionPane.showInputDialog("Enter the name of the Arena!"); //Creating a String variable for the validation of the name attribute
         	
