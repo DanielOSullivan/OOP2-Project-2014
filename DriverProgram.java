@@ -6,6 +6,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.lang.*;
+import java.io.*;
+import java.util.*;
 
 
 
@@ -26,24 +28,31 @@ public class DriverProgram extends JFrame implements ActionListener{
 	JTextArea textArea = new JTextArea();//Setting up a JTextArea variable which will be used in the welcome bmessage after the user clicks the beginFightButton
 	
 	//Fighter objects being created for use within the program
-	private Fighter f1 = new Fighter(); 
-    private	Fighter f2 = new Fighter();
+	static Fighter f1 = new Fighter(); 
+    static Fighter f2 = new Fighter();
     
-    private Arena a1 = new Arena();//Arena object being created for use within the program
+    static Arena a1 = new Arena();//Arena object being created for use within the program
     
 	private int f1Health = 100, f2Health = 100; //Initial health values of each fighter
 	private int hitOrMiss; //This variable will be used in relation to the hit ratios (30%, 60% etc...) of punches and kicks
-		
+	
+	//Creating ArrayLists to save/store and load up data entered by the user for Fighters and Arenas
+	static ArrayList <Fighter> myFighters = new ArrayList <Fighter> ();	
+	static ArrayList <Arena> myArenas = new ArrayList <Arena> ();	
 	
 	
 	/********* Driver *********/
 																																																															
-	public static void main(String args[]) throws Exception {
+	public static void main(String args[]) throws Exception{
 		
 		DriverProgram frame = new DriverProgram(); //Creating frame object for display on the screen
 		
 		frame.setVisible(true); //Making a DriverProgram object visible to the end user
 		
+		openFighters();
+		displayFighters();
+		openArenas();
+		displayArenas();
 	} //End of driver 
 		
 		
@@ -89,7 +98,7 @@ public class DriverProgram extends JFrame implements ActionListener{
         
         /*****Paul Kennedy (from class) told me that html referencing is possible in java so credit to him for the possibility of my use of html code in this project******/
         //Setting the response JLabel to instructions for the user
-        response = new JLabel("<html><h1 color='blue'><br> Click [Fighters > Add] to add 2 fighters!</h1><br><h1 color='red'> Click [Arena > Create] to create an" +
+        response = new JLabel("<html><h1 color='blue'><br> Click [Fighters > Add] to add 2 fighters!</h1><br><h1 color='red'> Click [Arena > Create] to create an " +
         					  "arena!</h1><br><h1>Click [Quit > Quit] to exit program!</h1></html>");
         					  
 		cPane.add(response); //Adding the response JLabel to the content pane
@@ -107,7 +116,7 @@ public class DriverProgram extends JFrame implements ActionListener{
 
 	/********* Creating Fighter Menu *********/
 																																	
-	public void createFighterMenu(){
+	private void createFighterMenu(){
 		
 		fighterMenu = new JMenu("Fighters"); //Creating fighterMenu Object	
 		fighterMenu.setForeground(Color.BLUE);
@@ -127,7 +136,7 @@ public class DriverProgram extends JFrame implements ActionListener{
 			
 	/********* Creating Arena Menu	*********/	
 																																				
-	public void createArenaMenu(){
+	private void createArenaMenu(){
 		
 		arenaMenu = new JMenu("Arena"); //Creating ArenaMenu Object
 		arenaMenu.setForeground(Color.RED);
@@ -147,7 +156,7 @@ public class DriverProgram extends JFrame implements ActionListener{
 			
 	/********* Creating Quit Menu *********/	
 																			 																			 		
-	public void createQuitMenu(){
+	private void createQuitMenu(){
 		
 		quitMenu = new JMenu("Quit"); //Creating ArenaMenu Object
 		
@@ -163,7 +172,7 @@ public class DriverProgram extends JFrame implements ActionListener{
 			
 	/********* Begin Fight Method *********/
 	 																																				
-	public void beginFight(){
+	private void beginFight(){
 		
 		beginFightButton.setVisible(true); //Setting the beginFightButton to visible under conditions listed in the actionPerformed Method below
 	  	beginFightButton.setBackground(Color.YELLOW); //Editing the beginFightButton
@@ -179,7 +188,7 @@ public class DriverProgram extends JFrame implements ActionListener{
 	
 	/********* Validating name input for f1 *********/
 	
-	public void nameValidation(Fighter f){
+	private void nameValidation(Fighter f){
         			       	
        	String fName = JOptionPane.showInputDialog("Enter the name for the Fighter!"); //Creating a String variable for the validation of the name attribute
         	
@@ -210,7 +219,7 @@ public class DriverProgram extends JFrame implements ActionListener{
 	
 	/********* Validating Age Input for f1 *********/
 	
-	public void ageValidation(Fighter f){
+	private void ageValidation(Fighter f){
 	 
        	String fAge = JOptionPane.showInputDialog("Enter the age of the Fighter"); //Creating String variable for the age variable
 			
@@ -244,7 +253,7 @@ public class DriverProgram extends JFrame implements ActionListener{
 	
 	/********* Validating Gender input for f1 *********/
 	
-	public void genderValidation(Fighter f){
+	private void genderValidation(Fighter f){
 			
         String fGenderInput = JOptionPane.showInputDialog("Enter the gender of the Fighter (M/F)"); //Creating String variable for gender for the validation
         	
@@ -292,7 +301,7 @@ public class DriverProgram extends JFrame implements ActionListener{
 	
 	/********* Validating Name input for a1 *********/
 	
-	public void nameValidation(Arena a){
+	private void nameValidation(Arena a){
         			       	
        	String aName = JOptionPane.showInputDialog("Enter the name of the Arena!"); //Creating a String variable for the validation of the name attribute
         	
@@ -323,7 +332,7 @@ public class DriverProgram extends JFrame implements ActionListener{
 	
 	/********* Validating location input for a1 *********/
 	
-	public void locationValidation(Arena a){
+	private void locationValidation(Arena a){
         			       	
        	String aLocation = JOptionPane.showInputDialog("Enter the location of the Arena!"); //Creating a String variable for the validation of the name attribute
         	
@@ -354,7 +363,7 @@ public class DriverProgram extends JFrame implements ActionListener{
     
     /********* Validating Capacity Input for a1 *********/
 	
-	public void capacityValidation(Arena a){
+	private void capacityValidation(Arena a){
 	 
        	String aCapacity = JOptionPane.showInputDialog("Enter the capacity of the Arena"); //Creating String variable for the age variable
 			
@@ -382,7 +391,128 @@ public class DriverProgram extends JFrame implements ActionListener{
 	   	}
 		/************************************************************************************************************/	
 				
-	}//End validating Capacity input    	
+	}//End validating Capacity input    
+	
+	
+	
+	/************************************************************************************************************/	
+		//Code Reference for save(), open() and display()
+		//Availability: X:\lab\John W\OOP2_2014\Sample programs\Units16_18\BicycleFrame4.java
+		//Author: John Walsh
+		//Source Code Date: 2014 
+		/*Changes Made: Simply changed the variables to suit the conditions of my project*/
+		
+		
+		
+	/********* Save Fighters *********/
+		
+	private void saveFighters() throws IOException{
+		
+		ObjectOutputStream os; //Creating new ObjectOutputStream
+		os = new ObjectOutputStream(new FileOutputStream("MyFighters.dat")); 
+		os.writeObject(myFighters);
+		os.close();
+		
+	} //End save()
+	
+	
+	
+	/********* Open Fighters *********/
+	
+	private static void openFighters() {
+    	try{
+      		ObjectInputStream is; //Creating new ObjectOutputStream
+      	  	is = new ObjectInputStream(new FileInputStream ("MyFighters.dat"));
+         	myFighters = (ArrayList<Fighter>) is.readObject();
+      	 	is.close();
+      	}
+      	
+      	catch(Exception e){
+      		JOptionPane.showMessageDialog(null,"Open Fighters didn't work");
+      		e.printStackTrace();
+      	}
+      	
+     } // end open()
+         
+         
+         
+    /********* Display Fighters *********/
+          
+    private static void displayFighters(){
+      	
+      	JTextArea area = new JTextArea();
+      	int numFighters = myFighters.size();
+      	
+      	if (numFighters > 0) {
+      	  	area.setText("Previously Saved Fighters List\n\n");
+      	  
+	      	for (int i = 0; i<numFighters; i++) 
+	      	    area.append("Fighter " + (i+1) + ": " + myFighters.get(i).toString()+ "\n");
+	      	    
+	      	JOptionPane.showMessageDialog(null,area);
+      	}
+      	
+      	else
+      	    JOptionPane.showMessageDialog(null,"No fighters in the system");
+      	    
+      } // end display()
+      
+      
+      
+    /********* Save Arena *********/
+      
+    private void saveArenas() throws IOException{
+		
+		ObjectOutputStream oos; //Creating new ObjectOutputStream
+		oos = new ObjectOutputStream(new FileOutputStream("MyArenas.dat"));
+		oos.writeObject(myArenas);
+		oos.close();
+		
+	} //End save()
+	
+	
+	
+	/********* Open Arena *********/
+	
+	private static void openArenas() {
+    	try{
+      		ObjectInputStream ois; //Creating new ObjectOutputStream
+      	  	ois = new ObjectInputStream(new FileInputStream ("MyArenas.dat"));
+         	myArenas = (ArrayList<Arena>) ois.readObject();
+      	 	ois.close();
+      	}
+      	
+      	catch(Exception e){
+      		JOptionPane.showMessageDialog(null,"Open Arenas didn't work");
+      		e.printStackTrace();
+      	}
+      	
+     } // end open()
+         
+         
+         
+    /********* Display Arena *********/
+          
+    private static void displayArenas(){
+      	
+      	JTextArea area = new JTextArea();
+      	int numArenas = myArenas.size();
+      	
+      	if (numArenas > 0) {
+      	  	area.setText("Previously Saved Arenas List\n\n");
+      	  
+	      	for (int i = 0; i<numArenas; i++) 
+	      	    area.append("Arena " + (i+1) + ": " + myArenas.get(i).toString()+ "\n");
+	      	    
+	      	JOptionPane.showMessageDialog(null,area);
+      	}
+      	
+      	else
+      	    JOptionPane.showMessageDialog(null,"No arenas in the system");
+      	    
+      } // end display()
+      
+    /************************************************************************************************************/ //End Referenced code
         	
 
 	/********* Handler/Listener *********/
@@ -395,7 +525,7 @@ public class DriverProgram extends JFrame implements ActionListener{
               
               
                    										
-		/********* Quit Program when "Quit" is clicked *********/
+	/********* Quit Program when "Quit" is clicked *********/
 																	 
         if (itemClicked.equals("Quit")){
         	
@@ -407,7 +537,7 @@ public class DriverProgram extends JFrame implements ActionListener{
         		     	
         		   
         		   		     		
-		/********* Add two Fighters when "Add" is clicked *********/
+	/********* Add two Fighters when "Add" is clicked *********/
 																  		
         if(itemClicked.equals("Add")){
         	
@@ -441,12 +571,24 @@ public class DriverProgram extends JFrame implements ActionListener{
         		
 				beginFight(); //Invoking the beginFight() user-defined method
 			}
+		
+			//Adding the fighters to the ArrayList
+			myFighters.add(f1);
+			myFighters.add(f2);
+			
+			//Using a try catch with relation to errors
+			try {
+				saveFighters();
+			}
+			catch(IOException e){
+				e.printStackTrace();
+			}
 				
         }//End if(itemClicked.equals("Add")){...}
         	
         	
         	
-		/********* Create Arena when "Create" is clicked *********/  
+	/********* Create Arena when "Create" is clicked *********/  
 		 	
         if(itemClicked.equals("Create")){
         	
@@ -477,15 +619,26 @@ public class DriverProgram extends JFrame implements ActionListener{
 				beginFight(); //Invoking the beginFight() user-defined method
 			}
 			
+			//Adding the Arena to the myArenas ArrayList
+			myArenas.add(a1);
+			
+			//Using try catch in relation to errors
+			try {
+				saveArenas();
+			}
+			catch(IOException e){
+				e.printStackTrace();
+			}
+			
         } //End if(itemClicked.equals("Create")){...}
 
 		
 		
-		/********* Demonstrating another way of determining what button was clicked in the following code instead of using the itemClicked variable like above to show an understanding *********/ 
+	/********* Demonstrating another way of determining what button was clicked in the following code instead of using the itemClicked variable like above to show an understanding *********/ 
 		
 		
 
-		/********* Message For when the user clicks "BeginFight" *********/ 
+	/********* Message For when the user clicks "BeginFight" *********/ 
 						
 		if(event.getSource().equals(beginFightButton)){
 			//Resets both fighter's health stats to 100
@@ -591,9 +744,11 @@ public class DriverProgram extends JFrame implements ActionListener{
 		  					 
 		}//End if(itemClicked.equals("Begin Fight!")){...}
 				 	 
-				 	
+				 	 
+		
+	/********* Algorithm *********/		 	
 				 	 		 	
-		/********* When f1's Punch is clicked *********/
+	/********* When f1's Punch is clicked *********/
 		
 	    if (event.getSource().equals(f1PunchButton)){ 
 			
@@ -641,7 +796,7 @@ public class DriverProgram extends JFrame implements ActionListener{
 	 	
 	 	
 	 
-	 	/********* When f1's Kick is clicked *********/
+	/********* When f1's Kick is clicked *********/
 	 	
 	    else if (event.getSource().equals(f1KickButton)){ 
 			
@@ -689,9 +844,9 @@ public class DriverProgram extends JFrame implements ActionListener{
 		       	
 		       	
 		       	    	
-		/********* f2's turn *********/
+	/********* f2's turn *********/
 			
-		/********* When f2's Punch Button is clicked *********/
+	/********* When f2's Punch Button is clicked *********/
 		
 		if (event.getSource().equals(f2PunchButton)){
 		   			 
@@ -739,7 +894,7 @@ public class DriverProgram extends JFrame implements ActionListener{
 	    
 	    
 	      
-	    /********* When f2's Kick is clicked *********/
+   /********* When f2's Kick is clicked *********/
 	    
 	    else if (event.getSource().equals(f2KickButton)){ 
 			
@@ -789,9 +944,9 @@ public class DriverProgram extends JFrame implements ActionListener{
 	    
 	    
 	       
-	    /********* Determining when it's Game Over *********/
+	/********* Determining when it's Game Over *********/
 	    
-	    //Handles if f1 Lost
+	/********* Handles if f1 Lost *********/
 	    
 		if (f1Health <= 0){
 		  		f1Health = 0; //Setting health to 0 so it can't be a negative integer
@@ -826,7 +981,7 @@ public class DriverProgram extends JFrame implements ActionListener{
 			
 				
 			
-		//Handles if f2 Lost	
+	/********* Handles if f2 Lost *********/	
 					
 		else if (f2Health <= 0){
 			
